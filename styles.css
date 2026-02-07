@@ -406,6 +406,11 @@ section {
     transform: translateY(-50%) scale(1.1);
 }
 
+.carousel-btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
 .carousel-btn--prev {
     left: 10px;
 }
@@ -436,6 +441,12 @@ section {
     background: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: all 0.3s ease;
+    border: none;
+}
+
+.carousel-indicators .indicator:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
 }
 
 .carousel-indicators .indicator.active {

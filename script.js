@@ -236,8 +236,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextBtn = carousel.querySelector('.carousel-btn--next');
         const indicators = carousel.querySelectorAll('.indicator');
         let currentIndex = 0;
+        let autoAdvanceInterval = null;
 
         function showImage(index) {
+            // Validate index
+            if (typeof index !== 'number' || index < 0 || index >= images.length) {
+                return;
+            }
+            
             images.forEach((img, i) => {
                 img.classList.toggle('active', i === index);
             });
@@ -248,6 +254,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function nextImage() {
+            // Check if carousel still exists
+            if (!document.body.contains(carousel)) {
+                stopAutoAdvance();
+                return;
+            }
             const nextIndex = (currentIndex + 1) % images.length;
             showImage(nextIndex);
         }
@@ -255,6 +266,19 @@ document.addEventListener('DOMContentLoaded', () => {
         function prevImage() {
             const prevIndex = (currentIndex - 1 + images.length) % images.length;
             showImage(prevIndex);
+        }
+
+        function startAutoAdvance() {
+            if (!autoAdvanceInterval) {
+                autoAdvanceInterval = setInterval(nextImage, 4000);
+            }
+        }
+
+        function stopAutoAdvance() {
+            if (autoAdvanceInterval) {
+                clearInterval(autoAdvanceInterval);
+                autoAdvanceInterval = null;
+            }
         }
 
         if (prevBtn) {
@@ -278,8 +302,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Auto-advance every 4 seconds
-        setInterval(nextImage, 4000);
+        // Pause on hover for accessibility
+        carousel.addEventListener('mouseenter', stopAutoAdvance);
+        carousel.addEventListener('mouseleave', startAutoAdvance);
+        
+        // Pause on focus for accessibility
+        carousel.addEventListener('focusin', stopAutoAdvance);
+        carousel.addEventListener('focusout', startAutoAdvance);
+
+        // Start auto-advance
+        startAutoAdvance();
     }
 
     // Modal functionality for app screenshot
