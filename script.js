@@ -228,6 +228,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Carousel functionality for CulturaApp
+    const carousel = document.querySelector('#culturaAppPreview .carousel');
+    if (carousel) {
+        const images = carousel.querySelectorAll('.app-screenshot');
+        const prevBtn = carousel.querySelector('.carousel-btn--prev');
+        const nextBtn = carousel.querySelector('.carousel-btn--next');
+        const indicators = carousel.querySelectorAll('.indicator');
+        let currentIndex = 0;
+
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.classList.toggle('active', i === index);
+            });
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+            currentIndex = index;
+        }
+
+        function nextImage() {
+            const nextIndex = (currentIndex + 1) % images.length;
+            showImage(nextIndex);
+        }
+
+        function prevImage() {
+            const prevIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(prevIndex);
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                prevImage();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nextImage();
+            });
+        }
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showImage(index);
+            });
+        });
+
+        // Auto-advance every 4 seconds
+        setInterval(nextImage, 4000);
+    }
+
     // Modal functionality for app screenshot
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
@@ -236,8 +290,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (appPreview && modal) {
         appPreview.addEventListener('click', () => {
-            modalImg.src = appPreview.querySelector('img').src;
-            modal.classList.add('open');
+            const activeImg = appPreview.querySelector('img.active');
+            if (activeImg) {
+                modalImg.src = activeImg.src;
+                modal.classList.add('open');
+            }
         });
     }
 
