@@ -1,4 +1,8 @@
 /* Reset and Base Styles */
+:root {
+    --nav-height: 70px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -644,7 +648,7 @@ section {
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 70px;
+        top: var(--nav-height);
         flex-direction: column;
         background-color: rgba(255, 255, 255, 0.98);
         width: 100%;
@@ -674,8 +678,8 @@ section {
     }
 
     .hero {
-        padding-top: 70px;
-        min-height: calc(100vh - 70px);
+        padding-top: var(--nav-height);
+        min-height: calc(100vh - var(--nav-height));
     }
 
     .hero-container {

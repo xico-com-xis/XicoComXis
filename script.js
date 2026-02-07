@@ -1,5 +1,4 @@
 
-
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -21,8 +20,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Hamburger menu toggle
+// DOMContentLoaded - Initialize all page functionality
 document.addEventListener('DOMContentLoaded', () => {
+    // Hamburger menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
 
@@ -40,7 +40,92 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Make interactive cards clickable
+    const interactiveCards = document.querySelectorAll('.interactive-card');
+    interactiveCards.forEach(card => {
+        const url = card.getAttribute('data-url');
+        if (url) {
+            card.addEventListener('click', () => {
+                window.open(url, '_blank');
+            });
+        }
+    });
+
+    // Modal functionality for app screenshot
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const appPreview = document.getElementById('culturaAppPreview');
+    const closeModal = document.querySelector('.close-modal');
+
+    if (appPreview && modal) {
+        appPreview.addEventListener('click', () => {
+            modalImg.src = appPreview.querySelector('img').src;
+            modal.classList.add('open');
+        });
+    }
+
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+    }
+
+    // Close modal when clicking outside the image
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.classList.remove('open');
+        }
+    });
+
+    // Email copy functionality
+    const emailLink = document.getElementById('email-link');
+    const copyMessage = document.getElementById('copy-message');
+    if (emailLink) {
+        emailLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const email = 'xico.reasonzx@gmail.com';
+            navigator.clipboard.writeText(email).then(function() {
+                copyMessage.classList.add('show');
+                setTimeout(() => {
+                    copyMessage.classList.remove('show');
+                }, 1500);
+            });
+        });
+    }
+
+    // Typing effect for hero title
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const originalText = heroTitle.textContent;
+        typeWriter(heroTitle, originalText, 50);
+    }
+
+    // Add hover effects to skill tags
+    const skillTags = document.querySelectorAll('.skill-tag');
+    skillTags.forEach(tag => {
+        tag.addEventListener('mouseenter', () => {
+            tag.style.transform = 'scale(1.05)';
+            tag.style.boxShadow = '0 4px 12px rgba(30, 41, 59, 0.2)';
+        });
+        
+        tag.addEventListener('mouseleave', () => {
+            tag.style.transform = 'scale(1)';
+            tag.style.boxShadow = 'none';
+        });
+    });
+
+    // Observe elements for animation
+    const animatedElements = document.querySelectorAll('.project-card, .skill-tag, .social-link');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
 });
+
+
 
 
 // Navbar background change on scroll
@@ -132,18 +217,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe elements for animation
-document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.project-card, .skill-tag, .social-link');
-    
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-});
-
 // Typing effect for hero title
 function typeWriter(element, text, speed = 100) {
     let i = 0;
@@ -159,32 +232,6 @@ function typeWriter(element, text, speed = 100) {
     
     type();
 }
-
-// Initialize typing effect when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const originalText = heroTitle.textContent;
-        typeWriter(heroTitle, originalText, 50);
-    }
-});
-
-// Add hover effects to skill tags
-document.addEventListener('DOMContentLoaded', () => {
-    const skillTags = document.querySelectorAll('.skill-tag');
-    
-    skillTags.forEach(tag => {
-        tag.addEventListener('mouseenter', () => {
-            tag.style.transform = 'scale(1.05)';
-            tag.style.boxShadow = '0 4px 12px rgba(30, 41, 59, 0.2)';
-        });
-        
-        tag.addEventListener('mouseleave', () => {
-            tag.style.transform = 'scale(1)';
-            tag.style.boxShadow = 'none';
-        });
-    });
-});
 
 // Add loading animation
 window.addEventListener('load', () => {
@@ -242,59 +289,4 @@ style.textContent = `
         width: 100% !important;
     }
 `;
-document.head.appendChild(style); 
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    // Make interactive cards clickable
-    const interactiveCards = document.querySelectorAll('.interactive-card');
-    interactiveCards.forEach(card => {
-        const url = card.getAttribute('data-url');
-        if (url) {
-            card.addEventListener('click', () => {
-                window.open(url, '_blank');
-            });
-        }
-    });
-
-    // Modal functionality for app screenshot
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    const appPreview = document.getElementById('culturaAppPreview');
-    const closeModal = document.querySelector('.close-modal');
-
-    if (appPreview && modal) {
-        appPreview.addEventListener('click', () => {
-            modalImg.src = appPreview.querySelector('img').src;
-            modal.classList.add('open');
-        });
-    }
-
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-    }
-
-    // Close modal when clicking outside the image
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.classList.remove('open');
-        }
-    });
-
-    const emailLink = document.getElementById('email-link');
-    const copyMessage = document.getElementById('copy-message');
-    if (emailLink) {
-        emailLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            const email = 'xico.reasonzx@gmail.com';
-            navigator.clipboard.writeText(email).then(function() {
-                copyMessage.classList.add('show');
-                setTimeout(() => {
-                    copyMessage.classList.remove('show');
-                }, 1500);
-            });
-        });
-    }
-});
+document.head.appendChild(style);
