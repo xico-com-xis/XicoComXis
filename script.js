@@ -306,9 +306,27 @@ document.addEventListener('DOMContentLoaded', () => {
         carousel.addEventListener('mouseenter', stopAutoAdvance);
         carousel.addEventListener('mouseleave', startAutoAdvance);
         
-        // Pause on focus for accessibility
-        carousel.addEventListener('focusin', stopAutoAdvance);
-        carousel.addEventListener('focusout', startAutoAdvance);
+        // Pause on focus for accessibility with delay
+        let focusTimeout = null;
+        carousel.addEventListener('focusin', () => {
+            if (focusTimeout) {
+                clearTimeout(focusTimeout);
+                focusTimeout = null;
+            }
+            stopAutoAdvance();
+        });
+        carousel.addEventListener('focusout', (e) => {
+            // Only restart auto-advance if focus left the carousel entirely
+            if (focusTimeout) {
+                clearTimeout(focusTimeout);
+            }
+            focusTimeout = setTimeout(() => {
+                if (!carousel.contains(document.activeElement)) {
+                    startAutoAdvance();
+                }
+                focusTimeout = null;
+            }, 200);
+        });
 
         // Start auto-advance
         startAutoAdvance();
