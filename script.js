@@ -215,8 +215,8 @@ style.textContent = `
 `;
 document.head.appendChild(style); 
 
-// Hamburger menu toggle
 document.addEventListener('DOMContentLoaded', () => {
+    // Hamburger menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -243,10 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
 
-
-document.addEventListener('DOMContentLoaded', () => {
 
     // Make interactive cards clickable
     const interactiveCards = document.querySelectorAll('.interactive-card');
