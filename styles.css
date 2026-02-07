@@ -617,8 +617,13 @@ section {
     height: 3px;
     background-color: #1e293b;
     margin: 3px 0;
-    transition: 0.3s;
     border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hamburger span {
+        transition: 0.3s;
+    }
 }
 
 .hamburger.active span:nth-child(1) {
@@ -647,11 +652,16 @@ section {
         background-color: rgba(255, 255, 255, 0.98);
         width: 100%;
         text-align: center;
-        transition: 0.3s;
         box-shadow: 0 10px 27px rgba(0, 0, 0, 0.1);
         padding: 2rem 0;
         gap: 0;
         backdrop-filter: blur(10px);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .nav-menu {
+            transition: 0.3s;
+        }
     }
 
     .nav-menu.active {
