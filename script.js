@@ -34,13 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Close menu when clicking outside (defined once at module level)
+// Cache DOM elements for better performance
+let cachedNavToggle = null;
+let cachedNavMenu = null;
+
 document.addEventListener('click', (e) => {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
+    // Lazy initialization of cached elements
+    if (!cachedNavToggle) {
+        cachedNavToggle = document.querySelector('.nav-toggle');
+        cachedNavMenu = document.querySelector('.nav-menu');
+    }
     
-    if (navToggle && navMenu && !navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove('active');
-        navToggle.classList.remove('active');
+    if (cachedNavToggle && cachedNavMenu && 
+        !cachedNavToggle.contains(e.target) && 
+        !cachedNavMenu.contains(e.target)) {
+        cachedNavMenu.classList.remove('active');
+        cachedNavToggle.classList.remove('active');
     }
 });
 
