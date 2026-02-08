@@ -162,21 +162,36 @@
                         Developing a mobile application for creating and sharing music and cultural events. 
                         Enables users to discover, organize, and participate in cultural activities.
                     </p>
-                    <div id="culturaAppPreview" class="project-preview project-preview--app">
-                        <img src="images/culturaApp-demo.jpeg" alt="CulturaApp Screenshot" class="app-screenshot">
+                    <div class="project-preview project-preview--app">
+                        <div class="carousel" id="culturaAppCarousel">
+                            <div class="carousel-track">
+                                <img src="images/culturaApp-demo.jpeg" alt="CulturaApp Demo" class="app-screenshot">
+                                <img src="images/culturaApp-preview1.png" alt="CulturaApp Screenshot 1" class="app-screenshot">
+                                <img src="images/culturaApp-preview2.png" alt="CulturaApp Screenshot 2" class="app-screenshot">
+                                <img src="images/culturaApp-preview3.png" alt="CulturaApp Screenshot 3" class="app-screenshot">
+                                <img src="images/culturaApp-preview4.png" alt="CulturaApp Screenshot 4" class="app-screenshot">
+                                <img src="images/culturaApp-preview5.png" alt="CulturaApp Screenshot 5" class="app-screenshot">
+                                <img src="images/culturaApp-preview6.png" alt="CulturaApp Screenshot 6" class="app-screenshot">
+                            </div>
+                            <button class="carousel-btn carousel-btn--prev" aria-label="Previous">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-btn carousel-btn--next" aria-label="Next">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <div class="carousel-indicators"></div>
+                        </div>
                     </div>
                     <div class="tech-stack">
                         <span class="tech">React Native</span>
                         <span class="tech">JavaScript</span>
-                        <span class="tech">Event Management</span>
-                        <span class="tech">Social Features</span>
                     </div>
                     <div class="project-links">
-                        <a class="project-link disabled">
+                        <a class="project-link disabled" data-tooltip="Not yet released">
                             <i class="fab fa-app-store"></i>
                             App Store
                         </a>
-                        <a class="project-link disabled">
+                        <a class="project-link disabled" data-tooltip="Not yet released">
                             <i class="fab fa-google-play"></i>
                             Google Play
                         </a>
@@ -287,6 +302,12 @@
     <div id="imageModal" class="modal">
         <span class="close-modal">&times;</span>
         <img class="modal-content" id="modalImage">
+        <button class="modal-nav-btn modal-nav-btn--prev" id="modalPrevBtn" aria-label="Previous">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="modal-nav-btn modal-nav-btn--next" id="modalNextBtn" aria-label="Next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
     </div>
 
     <script src="script.js"></script>

@@ -228,31 +228,121 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Modal functionality for app screenshot
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    const appPreview = document.getElementById('culturaAppPreview');
-    const closeModal = document.querySelector('.close-modal');
-
-    if (appPreview && modal) {
-        appPreview.addEventListener('click', () => {
-            modalImg.src = appPreview.querySelector('img').src;
-            modal.classList.add('open');
+    // Carousel functionality for CulturaApp
+    const carousel = document.getElementById('culturaAppCarousel');
+    if (carousel) {
+        const track = carousel.querySelector('.carousel-track');
+        const slides = Array.from(track.children);
+        const nextBtn = carousel.querySelector('.carousel-btn--next');
+        const prevBtn = carousel.querySelector('.carousel-btn--prev');
+        const indicatorsContainer = carousel.querySelector('.carousel-indicators');
+        
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        
+        // Create indicators
+        slides.forEach((_, index) => {
+            const indicator = document.createElement('div');
+            indicator.classList.add('carousel-indicator');
+            if (index === 0) indicator.classList.add('active');
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
         });
-    }
-
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-    }
-
-    // Close modal when clicking outside the image
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.classList.remove('open');
+        
+        const indicators = Array.from(indicatorsContainer.children);
+        
+        function updateCarousel() {
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
         }
-    });
+        
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+        
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        }
+        
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+        
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        // Modal functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.querySelector('.close-modal');
+        const modalPrevBtn = document.getElementById('modalPrevBtn');
+        const modalNextBtn = document.getElementById('modalNextBtn');
+        
+        let modalCurrentIndex = 0;
+        
+        // Click on image to open modal
+        slides.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                modalCurrentIndex = index;
+                modalImg.src = img.src;
+                modal.classList.add('open');
+            });
+        });
+        
+        // Modal navigation
+        function updateModalImage() {
+            modalImg.src = slides[modalCurrentIndex].src;
+        }
+        
+        if (modalNextBtn) {
+            modalNextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                modalCurrentIndex = (modalCurrentIndex + 1) % totalSlides;
+                updateModalImage();
+            });
+        }
+        
+        if (modalPrevBtn) {
+            modalPrevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                modalCurrentIndex = (modalCurrentIndex - 1 + totalSlides) % totalSlides;
+                updateModalImage();
+            });
+        }
+        
+        // Keyboard navigation in modal
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('open')) {
+                if (e.key === 'ArrowRight') {
+                    modalCurrentIndex = (modalCurrentIndex + 1) % totalSlides;
+                    updateModalImage();
+                } else if (e.key === 'ArrowLeft') {
+                    modalCurrentIndex = (modalCurrentIndex - 1 + totalSlides) % totalSlides;
+                    updateModalImage();
+                } else if (e.key === 'Escape') {
+                    modal.classList.remove('open');
+                }
+            }
+        });
+        
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                modal.classList.remove('open');
+            });
+        }
+        
+        // Close modal when clicking outside the image
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('open');
+            }
+        });
+    }
 
     const emailLink = document.getElementById('email-link');
     const copyMessage = document.getElementById('copy-message');
