@@ -1,5 +1,9 @@
 
 
+// Get navigation elements once
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -11,8 +15,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 block: 'start'
             });
             // Close mobile menu if open
-            const navMenu = document.getElementById('navMenu');
-            const hamburger = document.getElementById('hamburger');
             if (navMenu && navMenu.classList.contains('active')) {
                 navMenu.classList.remove('active');
                 hamburger.classList.remove('active');
@@ -23,9 +25,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Hamburger menu toggle
 document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-    
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
