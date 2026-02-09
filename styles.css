@@ -23,6 +23,12 @@ body {
     padding: 0 20px;
 }
 
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+}
+
 /* Navigation */
 .navbar {
     position: fixed;
@@ -90,7 +96,34 @@ body {
     width: 100%;
 }
 
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 1001;
+}
 
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #1e293b;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
 
 /* Hero Section */
 .hero {
@@ -179,6 +212,18 @@ body {
 /* Section Styles */
 section {
     padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        padding: 50px 0;
+    }
 }
 
 .section-title {
@@ -754,12 +799,52 @@ section {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
     .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.98);
+        width: 100%;
+        text-align: center;
+        transition: left 0.3s ease;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 20px 0;
+        gap: 0;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .nav-link::after {
         display: none;
     }
 
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+        padding: 0 10px;
     }
 
     .hero-buttons {
@@ -769,8 +854,16 @@ section {
 
     .btn {
         width: 100%;
-        max-width: 250px;
+        max-width: 280px;
         text-align: center;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .about-text p {
+        font-size: 1rem;
     }
 
     .projects-grid {
@@ -778,13 +871,56 @@ section {
         gap: 1.5rem;
     }
 
+    .project-card {
+        padding: 1.5rem;
+    }
+
+    .project-header {
+        flex-wrap: wrap;
+    }
+
+    .company {
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .carousel-btn--prev {
+        left: 5px;
+    }
+
+    .carousel-btn--next {
+        right: 5px;
+    }
+
+    .carousel-btn i {
+        font-size: 0.9rem;
+    }
+
+    .modal-nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .modal-nav-btn--prev {
+        left: 10px;
+    }
+
+    .modal-nav-btn--next {
+        right: 10px;
+    }
+
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
 
-    .section-title {
-        font-size: 2rem;
+    .contact-info p {
+        font-size: 1rem;
     }
 
     .skill-tags {
@@ -793,21 +929,87 @@ section {
 
     .social-links {
         grid-template-columns: 1fr;
-        max-width: 300px;
+        max-width: 100%;
+    }
+
+    .social-link {
+        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     .hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
     }
 
     .project-card {
-        padding: 1.5rem;
+        padding: 1.25rem;
+    }
+
+    .project-header h3 {
+        font-size: 1rem;
+    }
+
+    .project-card p {
+        font-size: 0.95rem;
+    }
+
+    .tech {
+        font-size: 0.75rem;
+        padding: 3px 10px;
+    }
+
+    .skill-tag {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+
+    .carousel-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .carousel-btn i {
+        font-size: 0.8rem;
+    }
+
+    .carousel-indicators {
+        bottom: 10px;
+    }
+
+    .carousel-indicator {
+        width: 6px;
+        height: 6px;
+    }
+
+    .carousel-indicator.active {
+        width: 18px;
+    }
+
+    .social-link {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+    }
+
+    .social-link i {
+        font-size: 1.25rem;
+    }
+
+    .x-icon {
+        width: 20px;
+        height: 20px;
     }
 
     .social-links {
@@ -914,4 +1116,29 @@ html {
 .copy-tooltip.show {
     display: block;
     opacity: 1;
+}
+
+/* Touch improvements for mobile */
+@media (hover: none) and (pointer: coarse) {
+    .carousel-btn,
+    .modal-nav-btn {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .project-card:hover {
+        transform: none;
+    }
+    
+    .project-card:active {
+        transform: scale(0.98);
+    }
+    
+    .btn:hover {
+        transform: none;
+    }
+    
+    .btn:active {
+        transform: scale(0.97);
+    }
 }
