@@ -17,6 +17,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (navMenu && hamburger) {
             navMenu.classList.remove('active');
             hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
         }
     });
 });
@@ -28,15 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (hamburger && navMenu) {
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
+      const isExpanded = hamburger.classList.toggle('active');
       navMenu.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', isExpanded);
     });
 
-    // Close menu when clicking outside
+    // Close menu when clicking outside (using event delegation on document)
     document.addEventListener('click', (e) => {
       if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
       }
     });
   }
