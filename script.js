@@ -191,14 +191,26 @@ window.addEventListener('scroll', () => {
     const navLinks = document.querySelectorAll('.nav-link');
     
     let current = '';
+    const scrollPosition = window.pageYOffset + 200;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // Check if we're at the bottom of the page
+    const isBottom = windowHeight + window.pageYOffset >= documentHeight - 50;
+    
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
         
-        if (window.pageYOffset >= sectionTop - 200) {
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             current = section.getAttribute('id');
         }
     });
+    
+    // If at bottom, set contact as active
+    if (isBottom) {
+        current = 'contact';
+    }
     
     navLinks.forEach(link => {
         link.classList.remove('active');
