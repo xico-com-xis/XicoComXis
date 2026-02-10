@@ -31,7 +31,7 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     z-index: 1000;
-    padding: 1rem 0;
+    padding: 1.15rem 0;
     transition: all 0.3s ease;
     border-bottom: 1px solid #f1f5f9;
 }
@@ -65,17 +65,25 @@ body {
 
 .nav-toggle {
     display: none;
-    background: transparent;
-    border: none;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
     cursor: pointer;
-    padding: 0.25rem;
+    padding: 0.5rem;
     flex-direction: column;
     gap: 5px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-toggle:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
 }
 
 .nav-toggle span {
     display: block;
-    width: 24px;
+    width: 22px;
     height: 2px;
     background: #1e293b;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -785,7 +793,7 @@ section {
 /* Responsive Design */
 @media (max-width: 768px) {
     .navbar {
-        padding: 0.75rem 0;
+        padding: 0.95rem 0;
     }
 
     .nav-container {
@@ -799,7 +807,7 @@ section {
 
     .nav-menu {
         position: absolute;
-        top: calc(100% + 0.5rem);
+        top: calc(100% + 0.2rem);
         right: 20px;
         left: 20px;
         display: none;
@@ -835,7 +843,7 @@ section {
 
     .hero {
         min-height: auto;
-        padding: 110px 0 60px;
+        padding: 122px 0 60px;
     }
 
     section {
