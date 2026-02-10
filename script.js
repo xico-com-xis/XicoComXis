@@ -1,5 +1,31 @@
 
 
+// Mobile Menu Toggle
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+const navLinks = document.querySelectorAll('.nav-link');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navMenu.classList.toggle('active');
+});
+
+// Close mobile menu when clicking on a link
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('active');
+  });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('active');
+  }
+});
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -24,26 +50,6 @@ window.addEventListener('scroll', () => {
         navbar.style.background = 'rgba(255, 255, 255, 0.95)';
         navbar.style.boxShadow = 'none';
     }
-});
-
-// Interactive project cards
-document.addEventListener('DOMContentLoaded', () => {
-    const interactiveCards = document.querySelectorAll('.interactive-card');
-    
-    interactiveCards.forEach(card => {
-        // Add click handler for the entire card
-        card.addEventListener('click', (e) => {
-            const url = card.getAttribute('data-url');
-            
-            if (url) {
-                // Open website in new tab
-                window.open(url, '_blank');
-            }
-        });
-        
-        // Add cursor pointer to indicate clickable
-        card.style.cursor = 'pointer';
-    });
 });
 
 // Contact form handling
