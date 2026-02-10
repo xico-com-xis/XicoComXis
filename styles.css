@@ -754,12 +754,40 @@ section {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .navbar {
+        padding: 0.75rem 0;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
     .nav-menu {
-        display: none;
+        display: flex;
+        gap: 1rem;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0.25rem;
+        scrollbar-width: thin;
+    }
+
+    .nav-item {
+        flex: 0 0 auto;
     }
 
     .hero-title {
         font-size: 3rem;
+    }
+
+    .hero {
+        min-height: auto;
+        padding: 110px 0 60px;
+    }
+
+    section {
+        padding: 64px 0;
     }
 
     .hero-buttons {
@@ -776,6 +804,18 @@ section {
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+    .project-header {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .company {
+        max-width: none;
+        width: 100%;
+        text-align: left;
+        margin-top: -0.25rem;
     }
 
     .contact-content {
@@ -798,6 +838,12 @@ section {
 }
 
 @media (max-width: 480px) {
+    .container,
+    .nav-container,
+    .hero-container {
+        padding: 0 16px;
+    }
+
     .hero-title {
         font-size: 2.5rem;
     }
@@ -808,6 +854,15 @@ section {
 
     .project-card {
         padding: 1.5rem;
+    }
+
+    .project-preview--large {
+        height: 200px;
+    }
+
+    .project-preview--app {
+        height: 220px;
+        padding: 0.75rem;
     }
 
     .social-links {
