@@ -246,19 +246,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Carousel functionality for CulturaApp
-    const carousel = document.getElementById('culturaAppCarousel');
-    if (carousel) {
+    // Generic carousel initializer
+    function initCarousel(carouselId) {
+        const carousel = document.getElementById(carouselId);
+        if (!carousel) return null;
+
         const track = carousel.querySelector('.carousel-track');
         const slides = Array.from(track.children);
         const nextBtn = carousel.querySelector('.carousel-btn--next');
         const prevBtn = carousel.querySelector('.carousel-btn--prev');
         const indicatorsContainer = carousel.querySelector('.carousel-indicators');
-        
+
         let currentIndex = 0;
         const totalSlides = slides.length;
-        
-        // Create indicators
+
         slides.forEach((_, index) => {
             const indicator = document.createElement('div');
             indicator.classList.add('carousel-indicator');
@@ -266,101 +267,101 @@ document.addEventListener('DOMContentLoaded', () => {
             indicator.addEventListener('click', () => goToSlide(index));
             indicatorsContainer.appendChild(indicator);
         });
-        
+
         const indicators = Array.from(indicatorsContainer.children);
-        
+
         function updateCarousel() {
             track.style.transform = `translateX(-${currentIndex * 100}%)`;
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentIndex);
-            });
+            indicators.forEach((ind, i) => ind.classList.toggle('active', i === currentIndex));
         }
-        
-        function goToSlide(index) {
-            currentIndex = index;
-            updateCarousel();
-        }
-        
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateCarousel();
-        }
-        
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateCarousel();
-        }
-        
-        nextBtn.addEventListener('click', nextSlide);
-        prevBtn.addEventListener('click', prevSlide);
-        
-        // Modal functionality
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const closeModal = document.querySelector('.close-modal');
-        const modalPrevBtn = document.getElementById('modalPrevBtn');
-        const modalNextBtn = document.getElementById('modalNextBtn');
-        
-        let modalCurrentIndex = 0;
-        
-        // Click on image to open modal
+
+        function goToSlide(index) { currentIndex = index; updateCarousel(); }
+        function nextSlide() { currentIndex = (currentIndex + 1) % totalSlides; updateCarousel(); }
+        function prevSlide() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateCarousel(); }
+
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextSlide(); });
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevSlide(); });
+        slides.forEach(slide => slide.addEventListener('click', (e) => e.stopPropagation()));
+        indicators.forEach(ind => ind.addEventListener('click', (e) => e.stopPropagation()));
+
+        return { slides, totalSlides };
+    }
+
+    // Carousel functionality
+    initCarousel('culturaAppCarousel');
+    initCarousel('mulmaCarousel');
+
+    // Shared modal functionality
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeModal = document.querySelector('.close-modal');
+    const modalPrevBtn = document.getElementById('modalPrevBtn');
+    const modalNextBtn = document.getElementById('modalNextBtn');
+
+    let modalSlides = [];
+    let modalCurrentIndex = 0;
+
+    function openModal(slides, index) {
+        modalSlides = slides;
+        modalCurrentIndex = index;
+        modalImg.src = modalSlides[modalCurrentIndex].src;
+        modal.classList.add('open');
+    }
+
+    function updateModalImage() {
+        modalImg.src = modalSlides[modalCurrentIndex].src;
+    }
+
+    // Attach modal open to all carousel images
+    ['culturaAppCarousel', 'mulmaCarousel'].forEach(id => {
+        const carousel = document.getElementById(id);
+        if (!carousel) return;
+        const slides = Array.from(carousel.querySelectorAll('.app-screenshot'));
         slides.forEach((img, index) => {
-            img.addEventListener('click', () => {
-                modalCurrentIndex = index;
-                modalImg.src = img.src;
-                modal.classList.add('open');
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openModal(slides, index);
             });
         });
-        
-        // Modal navigation
-        function updateModalImage() {
-            modalImg.src = slides[modalCurrentIndex].src;
-        }
-        
-        if (modalNextBtn) {
-            modalNextBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                modalCurrentIndex = (modalCurrentIndex + 1) % totalSlides;
-                updateModalImage();
-            });
-        }
-        
-        if (modalPrevBtn) {
-            modalPrevBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                modalCurrentIndex = (modalCurrentIndex - 1 + totalSlides) % totalSlides;
-                updateModalImage();
-            });
-        }
-        
-        // Keyboard navigation in modal
-        document.addEventListener('keydown', (e) => {
-            if (modal.classList.contains('open')) {
-                if (e.key === 'ArrowRight') {
-                    modalCurrentIndex = (modalCurrentIndex + 1) % totalSlides;
-                    updateModalImage();
-                } else if (e.key === 'ArrowLeft') {
-                    modalCurrentIndex = (modalCurrentIndex - 1 + totalSlides) % totalSlides;
-                    updateModalImage();
-                } else if (e.key === 'Escape') {
-                    modal.classList.remove('open');
-                }
-            }
-        });
-        
-        if (closeModal) {
-            closeModal.addEventListener('click', () => {
-                modal.classList.remove('open');
-            });
-        }
-        
-        // Close modal when clicking outside the image
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.classList.remove('open');
-            }
+    });
+
+    if (modalNextBtn) {
+        modalNextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modalCurrentIndex = (modalCurrentIndex + 1) % modalSlides.length;
+            updateModalImage();
         });
     }
+
+    if (modalPrevBtn) {
+        modalPrevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modalCurrentIndex = (modalCurrentIndex - 1 + modalSlides.length) % modalSlides.length;
+            updateModalImage();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (modal.classList.contains('open')) {
+            if (e.key === 'ArrowRight') {
+                modalCurrentIndex = (modalCurrentIndex + 1) % modalSlides.length;
+                updateModalImage();
+            } else if (e.key === 'ArrowLeft') {
+                modalCurrentIndex = (modalCurrentIndex - 1 + modalSlides.length) % modalSlides.length;
+                updateModalImage();
+            } else if (e.key === 'Escape') {
+                modal.classList.remove('open');
+            }
+        }
+    });
+
+    if (closeModal) {
+        closeModal.addEventListener('click', () => modal.classList.remove('open'));
+    }
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) modal.classList.remove('open');
+    });
 
     const emailLink = document.getElementById('email-link');
     const copyMessage = document.getElementById('copy-message');
